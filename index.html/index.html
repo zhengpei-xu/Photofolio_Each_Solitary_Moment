@@ -5,36 +5,35 @@
     <meta charset="utf-8" />
     <title>My Photofolio - Each Solitary Moment</title>
 
-    <!-- 不要使用 base！GitHub Pages 会错误解析路径 -->
-    <!-- <base href="/"> -->
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/Photofolio_Each_Solitary_Moment/style.css">
 
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- 本地 turn.js -->
-    <script src="lib/turn.min.js"></script>
+    <script src="/Photofolio_Each_Solitary_Moment/lib/turn.min.js"></script>
 </head>
 
 <body>
     <div id="flipbook"></div>
 
     <script>
+        const PROJECT_PATH = "/Photofolio_Each_Solitary_Moment/";
+        const TOTAL_PAGES = 108;
+
         // 自动生成108页
         (function createPages() {
-            const totalPages = 108;
             const container = document.getElementById('flipbook');
 
-            for (let i = 1; i <= totalPages; i++) {
+            for (let i = 1; i <= TOTAL_PAGES; i++) {
                 const page = document.createElement('div');
                 page.className = 'page';
 
                 const img = document.createElement('img');
-                img.src = `images/EachSolitaryMoment${i}.jpg`;
+                // !!! 关键修正：图片路径使用项目前缀 !!!
+                img.src = `${PROJECT_PATH}images/EachSolitaryMoment${i}.jpg`;
                 img.alt = `Photo Page ${i}`;
+
                 img.style.width = '100%';
                 img.style.height = '100%';
                 img.style.objectFit = 'contain';
@@ -46,6 +45,12 @@
 
         // 初始化翻页
         window.addEventListener('load', function () {
+            // 确保 jQuery 和 turn.js 已加载，以防止 TypeError
+            if (typeof $.fn.turn !== 'function') {
+                console.error("Turn.js library not loaded. Check script path.");
+                return;
+            }
+
             $('#flipbook').turn({
                 width: 1610,
                 height: 900,
