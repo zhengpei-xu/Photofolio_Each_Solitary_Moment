@@ -1,18 +1,67 @@
+/* style.css */
+/* ----------------------------------- */
+/* 整体页面和排版样式 */
+/* ----------------------------------- */
+
+html,
 body {
-    background-color: #f0f0f0;
+    height: 100%;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
+
+    /* 居中设置 */
     display: flex;
     justify-content: center;
+    /* 水平居中 */
     align-items: center;
-    min-height: 100vh;
+    /* 垂直居中 */
+
+    background-color: #000;
+    /* 纯黑背景 */
+    font-family: sans-serif;
 }
+
+/* ----------------------------------- */
+/* flipbook 容器样式 */
+/* ----------------------------------- */
 
 #flipbook {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 1610px;
+    /* 您设计的最大宽度 */
+    height: 90vh;
+    /* 适配视窗高度 */
+
+    margin: 30px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    background: #222;
 }
 
-#flipbook>div {
-    /* 确保图片填充整个页面 */
-    background-size: 100% 100%;
+/* ----------------------------------- */
+/* flipbook 单页样式 */
+/* ----------------------------------- */
+
+#flipbook>.page {
+    /* turn.js 单页宽度 */
+    width: 805px;
+    height: 900px;
+
+    /* 设置页面背景为白色，以便图片周围有留白 */
+    background-color: #ffffff;
+}
+
+/* ----------------------------------- */
+/* 响应式调整 (小屏幕适配) */
+/* ----------------------------------- */
+
+@media (max-width: 900px) {
+    #flipbook {
+        height: 70vh;
+    }
+
+    #flipbook>.page {
+        width: 360px;
+        height: 70vh;
+    }
 }
