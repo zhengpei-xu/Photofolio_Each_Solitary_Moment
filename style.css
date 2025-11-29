@@ -1,4 +1,3 @@
-/* style.css */
 /* ----------------------------------- */
 /* 整体页面和排版样式 */
 /* ----------------------------------- */
@@ -16,10 +15,14 @@ body {
     /* 水平居中 */
     align-items: center;
     /* 垂直居中 */
+    flex-direction: column;
+    /* 允许在小屏幕上堆叠 */
 
     background-color: #000;
     /* 纯黑背景 */
     font-family: sans-serif;
+    overflow-x: hidden;
+    /* 防止移动端横向滚动 */
 }
 
 /* ----------------------------------- */
@@ -27,9 +30,9 @@ body {
 /* ----------------------------------- */
 
 #flipbook {
+    /* 默认大屏幕/桌面尺寸 */
     width: 100%;
     max-width: 1610px;
-    /* 您设计的最大宽度 */
     height: 90vh;
     /* 适配视窗高度 */
 
@@ -43,7 +46,7 @@ body {
 /* ----------------------------------- */
 
 #flipbook>.page {
-    /* turn.js 单页宽度 */
+    /* 默认大屏幕单页宽度 */
     width: 805px;
     height: 900px;
 
@@ -51,17 +54,39 @@ body {
     background-color: #ffffff;
 }
 
+#flipbook>.page img {
+    /* 确保图片填充页面并保持比例 */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
 /* ----------------------------------- */
-/* 响应式调整 (小屏幕适配) */
+/* 响应式调整 (媒体查询) */
 /* ----------------------------------- */
 
-@media (max-width: 900px) {
+/* 针对大多数平板电脑和手机 (小于 1200px) */
+@media (max-width: 1200px) {
     #flipbook {
-        height: 70vh;
+        /* 增加高度占比，减少页边距 */
+        height: 95vh;
+        margin: 0 auto;
+    }
+}
+
+
+/* 针对手机 (小于 768px) */
+@media (max-width: 768px) {
+    #flipbook {
+        /* 在小屏幕上，翻页书占据整个视口宽度 */
+        width: 100vw;
+        height: 100vh;
     }
 
     #flipbook>.page {
-        width: 360px;
-        height: 70vh;
+        /* turn.js 在单页模式下需要一个宽度 */
+        width: 50vw;
+        /* 即使是单页模式，也定义一个宽度 */
+        height: 100vh;
     }
 }
