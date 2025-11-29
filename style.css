@@ -16,25 +16,23 @@ body {
     align-items: center;
     /* 垂直居中 */
     flex-direction: column;
-    /* 允许在小屏幕上堆叠 */
 
     background-color: #000;
     /* 纯黑背景 */
     font-family: sans-serif;
-    overflow-x: hidden;
-    /* 防止移动端横向滚动 */
+    /* 允许浏览器在必要时缩放内容 */
+    overflow: auto;
 }
 
 /* ----------------------------------- */
-/* flipbook 容器样式 */
+/* flipbook 容器样式 - 基础（桌面） */
 /* ----------------------------------- */
 
 #flipbook {
-    /* 默认大屏幕/桌面尺寸 */
-    width: 100%;
-    max-width: 1610px;
-    height: 90vh;
-    /* 适配视窗高度 */
+    /* 默认尺寸：两页展开的原始设计宽度 1610px */
+    width: 1610px;
+    height: 900px;
+    /* 原始设计高度 */
 
     margin: 30px auto;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
@@ -42,15 +40,14 @@ body {
 }
 
 /* ----------------------------------- */
-/* flipbook 单页样式 */
+/* flipbook 单页样式 - 基础（桌面） */
 /* ----------------------------------- */
 
 #flipbook>.page {
-    /* 默认大屏幕单页宽度 */
+    /* 单页宽度 805px */
     width: 805px;
     height: 900px;
 
-    /* 设置页面背景为白色，以便图片周围有留白 */
     background-color: #ffffff;
 }
 
@@ -62,31 +59,48 @@ body {
 }
 
 /* ----------------------------------- */
-/* 响应式调整 (媒体查询) */
+/* 移动端/小屏幕适配：使用 CSS 缩放 */
 /* ----------------------------------- */
 
-/* 针对大多数平板电脑和手机 (小于 1200px) */
-@media (max-width: 1200px) {
+/* 屏幕宽度小于 1610px 时激活 */
+@media (max-width: 1610px) {
     #flipbook {
-        /* 增加高度占比，减少页边距 */
-        height: 95vh;
+        /* 计算缩放比例：将 1610px 宽度的书本缩放到 95% 的视口宽度 */
+        /* (1610px / 1610px) * 100vw = 100vw; 
+           我们现在要计算实际缩放比 */
+
+        /* 关键 CSS 属性：将整个容器等比例缩小 */
+        transform-origin: top center;
+        /* 以顶部中央为缩放原点 */
+        transform: scale(calc(100vw / 1610));
+        /* 缩放比 = (当前视口宽度 / 原始宽度) */
+
+        /* 强制设置一个较小的宽度，让缩放生效 */
+        width: 100vw;
+        height: 56.15vw;
+        /* 900/1610 = 0.559 => 约 56.15% */
+
+        /* 抵消缩放带来的 margin 错位 */
         margin: 0 auto;
+    }
+
+    /* 阻止 turn.js 自动将页面强制设置为单页模式的宽度 */
+    #flipbook>.page {
+        width: 805px;
+        height: 900px;
     }
 }
 
-
-/* 针对手机 (小于 768px) */
+/* ----------------------------------- */
+/* 针对极小屏幕的微调 (可选) */
+/* ----------------------------------- */
 @media (max-width: 768px) {
     #flipbook {
-        /* 在小屏幕上，翻页书占据整个视口宽度 */
-        width: 100vw;
-        height: 100vh;
-    }
+        /* 在手机上稍微留出一点边距，避免紧贴屏幕边缘 */
+        transform: scale(calc(95vw / 1610));
 
-    #flipbook>.page {
-        /* turn.js 在单页模式下需要一个宽度 */
-        width: 50vw;
-        /* 即使是单页模式，也定义一个宽度 */
-        height: 100vh;
+        /* 调整页面的垂直居中 */
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 }
