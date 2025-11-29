@@ -5,23 +5,25 @@
     <meta charset="utf-8" />
     <title>My Photofolio - Each Solitary Moment</title>
 
-    <base href="/">
+    <!-- 不要使用 base！GitHub Pages 会错误解析路径 -->
+    <!-- <base href="/"> -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="style.css">
 
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!-- 本地 turn.js -->
     <script src="lib/turn.min.js"></script>
 </head>
 
 <body>
-    <div id="flipbook">
-    </div>
+    <div id="flipbook"></div>
 
     <script>
-        // 动态创建 108 个页面（从 1 到 108）
+        // 自动生成108页
         (function createPages() {
             const totalPages = 108;
             const container = document.getElementById('flipbook');
@@ -30,42 +32,31 @@
                 const page = document.createElement('div');
                 page.className = 'page';
 
-                // 使用 <img> 标签，以更好地控制图片大小和加载
                 const img = document.createElement('img');
                 img.src = `images/EachSolitaryMoment${i}.jpg`;
                 img.alt = `Photo Page ${i}`;
-
-                // 确保图片宽度和高度填满 page div
                 img.style.width = '100%';
                 img.style.height = '100%';
-
-                // **关键：使用 contain 保持图片比例完整，并适应页面尺寸**
                 img.style.objectFit = 'contain';
 
                 page.appendChild(img);
-
-                page.setAttribute('data-page', String(i));
                 container.appendChild(page);
             }
         })();
 
-        // 当所有图片与 DOM 加载完后初始化 turn.js
+        // 初始化翻页
         window.addEventListener('load', function () {
-            const desiredWidth = 1610;
-            const desiredHeight = 900;
-
-            // 初始化 turn.js
             $('#flipbook').turn({
-                width: desiredWidth,
-                height: desiredHeight,
+                width: 1610,
+                height: 900,
                 autoCenter: true,
-                display: 'double', // 双页显示
+                display: 'double',
                 acceleration: true,
                 gradients: true,
                 elevation: 50
             });
 
-            // 键盘左右翻页
+            // 键盘翻页
             $(document).on('keydown', function (e) {
                 if (e.key === 'ArrowLeft') $('#flipbook').turn('previous');
                 else if (e.key === 'ArrowRight') $('#flipbook').turn('next');
